@@ -1,0 +1,55 @@
+\documentclass[10pt, a5j]{ltjsbook} % lualatex
+
+%%%%%%%%%%%%%%%%%%%%========== 書誌情報 ==========%%%%%%%%%%%%%%%%%%%%
+% 表紙・奥付・PDFのメタデータに使う．PDFのメタデータに展開できるよう，\newcommandで定義する．
+\newcommand{\booktitle}{書名}
+\newcommand{\bookedition}{初版}
+\newcommand{\bookauthor}{著者名}
+\newcommand{\bookdate}{2026年12月31日}
+\newcommand{\bookpublisher}{発行者名}
+\newcommand{\bookprinter}{印刷所名}
+\newcommand{\bookcontact}{連絡先}
+
+%%%%%%%%%%%%%%%%%%%%========== プリアンブル ==========%%%%%%%%%%%%%%%%%%%%
+\input{preamble/packages}
+\input{preamble/fonts}
+\input{preamble/layout}
+\input{preamble/theorems}
+\input{preamble/macros}
+\input{preamble/index}
+\input{preamble/references}
+
+\begin{document}
+
+\begin{titlepage}
+	\title{\booktitle\ \bookedition}
+	\author{\bookauthor}
+	\date{\bookdate}
+	\maketitle
+\end{titlepage}
+
+\frontmatter
+
+\include{contents/intro}
+
+\tableofcontents
+
+\mainmatter
+
+\include{contents/chapter01}
+
+\backmatter
+
+% 後付けでは，節の見出しに「§」を付けない．
+\RenewDocumentCommand{\presectionname}{}{}
+\RenewDocumentCommand{\presubsectionname}{}{}
+\include{contents/answer}
+
+\printbibliography[title=参考文献, heading=bibintoc]
+
+\printindex[sidx]
+\printindex[widx]
+
+\include{colophon}
+
+\end{document}

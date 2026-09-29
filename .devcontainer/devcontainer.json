@@ -6,7 +6,21 @@
 	"shutdownAction": "stopCompose",
 	"customizations": {
 		"vscode": {
-			"extensions": ["anthropic.claude-code", "growthjack.claude-code-usage"]
+			"extensions": [
+				"anthropic.claude-code",
+				"growthjack.claude-code-usage",
+				"efoerster.texlab"
+			],
+			"settings": {
+				"texlab.latexFormatter": "latexindent",
+				"texlab.latexindent.local": "/workspaces/.latexindent.yaml",
+				"texlab.latexindent.modifyLineBreaks": false,
+				"[latex]": {
+					"editor.defaultFormatter": "efoerster.texlab",
+					"editor.formatOnSave": true,
+					"editor.insertSpaces": false
+				}
+			}
 		}
 	},
 	"postCreateCommand": "mise run setup",

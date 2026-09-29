@@ -3,7 +3,7 @@ rtk = "0.49.0"
 lefthook = "2.1.14"
 node = "26.10.0"
 pnpm = "12.6.0"
-# ここにプロジェクトが使う言語・ツールを追加する(例: node = "24"，rust = "1.98.1")．
+# TeX Live(lualatex，llmk，latexindentなど)はmiseではなく，Dockerイメージに含まれるものを使う．
 # 版を固定する場合はここで`mise lock`を実行し，生成されたmise.lockもコミットする．
 
 # 実際に利用する場合には以下を有効にする
@@ -14,20 +14,38 @@ pnpm = "12.6.0"
 description = "依存パッケージをインストールする"
 run = "pnpm install --frozen-lockfile"
 
-[tasks.fmt]
-description = "コードと文書を整形する"
-depends = ["install"]
-run = "echo 'TODO: add your formatter'"
+[tasks.build]
+description = "原稿をビルドしてsrc/main.pdfを作る(手順はsrc/llmk.toml)"
+dir = "src"
+run = "llmk"
 
-[tasks.lint]
-description = "すべてのリントを実行する"
+[tasks.clean]
+description = "ビルドで生成したファイルを削除する(PDFも含む)"
+dir = "src"
+run = "llmk -C"
+
+[tasks.fmt]
+description = "TeXのソースをlatexindentで整形する"
+run = [
+	"mkdir -p .cache/latexindent",
+	"git ls-files -z '*.tex' | xargs -0 -r latexindent --overwriteIfDifferent --silent --local=.latexindent.yaml --cruft=.cache/latexindent/ --logfile=/dev/null",
+]
+
+[tasks."lint:tex"]
+description = "TeXのソースがlatexindentで整形済みかを検査する"
+run = [
+	"mkdir -p .cache/latexindent",
+	"git ls-files -z '*.tex' | xargs -0 -r latexindent --check --local=.latexindent.yaml --cruft=.cache/latexindent/ --logfile=/dev/null > /dev/null || { echo 'latexindentで整形されていないファイルがある．mise run fmtを実行すること．' >&2; exit 1; }",
+]
+
+[tasks."lint:docs"]
+description = "Markdownの文書をtextlintとmarkdownlintで検査する"
 depends = ["install"]
 run = "pnpm lint"
 
-[tasks.test]
-description = "単体テストを実行する"
-depends = ["install"]
-run = "echo 'TODO: add your test command'"
+[tasks.lint]
+description = "すべてのリントを実行する"
+depends = ["lint:tex", "lint:docs"]
 
 [tasks.hooks]
 description = "Gitのフック(コミット時の検査)を設定する"
@@ -38,5 +56,5 @@ description = "開発環境を整える(依存パッケージ，Gitのフック�
 depends = ["install", "hooks"]
 
 [tasks.check]
-description = "整形の検査，リント，単体テストなどをまとめて実行する(CIと同じ)"
-depends = ["lint", "test"]
+description = "整形の検査，リント，ビルドをまとめて実行する(CIと同じ)"
+depends = ["lint", "build"]

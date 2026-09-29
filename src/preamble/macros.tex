@@ -1,0 +1,90 @@
+%%%%%%%%%%%%%%%%%%%%========== マクロ ==========%%%%%%%%%%%%%%%%%%%%
+% 括弧類のマクロは，星付きで呼ぶと括弧の大きさを自動調整しない．
+% 例：\paren{x}は\left(x\right)，\paren*{x}は(x)になる．
+
+%%%%%%%%%% 用語 %%%%%%%%%%
+
+% 用語を太字で示し，用語索引に載せる．
+% 省略可能な引数には読みを書く．例：\term[しゅうごう]{集合}
+\NewDocumentCommand{\term}{om}{%
+	\textbf{#2}%
+	\IfValueTF{#1}{\index[widx]{#1@#2}}{\index[widx]{#2}}%
+}
+\RenewDocumentCommand{\emph}{m}{\textbf{#1}}
+
+%%%%%%%%%% 括弧 %%%%%%%%%%
+
+\NewDocumentCommand{\paren}{sm}{%
+	\IfBooleanTF{#1}{%
+		\mathopen{} (#2) \mathclose{}%
+	}{%
+		\mathopen{} \left( #2 \right) \mathclose{}%
+	}%
+}
+
+\NewDocumentCommand{\squarebrackets}{sm}{%
+	\IfBooleanTF{#1}{%
+		\mathopen{} [#2] \mathclose{}%
+	}{%
+		\mathopen{} \left[ #2 \right] \mathclose{}%
+	}%
+}
+
+\NewDocumentCommand{\anglebrackets}{sm}{%
+	\IfBooleanTF{#1}{%
+		\mathopen{} \langle #2 \rangle \mathclose{}%
+	}{%
+		\mathopen{} \left\langle #2 \right\rangle \mathclose{}%
+	}%
+}
+
+\NewDocumentCommand{\vertbracket}{sm}{%
+	\IfBooleanTF{#1}{%
+		\mathopen{} \lvert #2 \rvert \mathclose{}%
+	}{%
+		\mathopen{} \left\lvert #2 \right\rvert \mathclose{}%
+	}%
+}
+
+%%%%%%%%%% 関数と集合 %%%%%%%%%%
+
+% 関数適用．例：\apply{f}{x}はf(x)になる．
+\NewDocumentCommand{\apply}{smm}{%
+	\IfBooleanTF{#1}{#2\paren*{#3}}{#2\paren{#3}}%
+}
+
+% 絶対値
+\NewDocumentCommand{\absolute}{sm}{%
+	\IfBooleanTF{#1}{\vertbracket*{#2}}{\vertbracket{#2}}%
+}
+
+% 同値類
+\NewDocumentCommand{\equivclass}{sm}{%
+	\IfBooleanTF{#1}{\squarebrackets*{#2}}{\squarebrackets{#2}}%
+}
+
+% 順序対
+\NewDocumentCommand{\pair}{m}{\langle #1 \rangle}
+
+% 冪集合
+\NewDocumentCommand{\powerset}{m}{\apply{\symfrak{P}}{#1}}
+
+% 補集合
+\NewDocumentCommand{\complementset}{m}{{#1}^{c}}
+
+% 写像の制限
+\NewDocumentCommand{\restriction}{}{\upharpoonright}
+
+% 一意存在
+\NewDocumentCommand{\uexists}{}{{\exists !}}
+
+% 同型
+\NewDocumentCommand{\isomorphic}{}{\cong}
+
+%%%%%%%%%% 数の集合 %%%%%%%%%%
+
+\NewDocumentCommand{\N}{}{\mathbb{N}}
+\NewDocumentCommand{\Z}{}{\mathbb{Z}}
+\NewDocumentCommand{\Q}{}{\mathbb{Q}}
+\NewDocumentCommand{\R}{}{\mathbb{R}}
+\NewDocumentCommand{\C}{}{\mathbb{C}}

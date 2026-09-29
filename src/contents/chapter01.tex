@@ -1,0 +1,39 @@
+% 各章のファイルは，main.texの\includeで読み込む．
+% 章を追加したら，main.texに\include{contents/ファイル名}を追加する．
+% ラベルは「環境名:識別子」の形にする(例：Def:group，Thm:lagrange，sec:group)．
+\chapter{章の題名} \label{chap:sample}
+
+\section{節の題名} \label{sec:sample}
+
+\begin{Def} \label[Def]{Def:group}
+	集合\(G\)と写像\(\cdot \colon G \times G \to G\)の組\(\paren{G, \cdot}\)が%
+	\term[ぐん]{群}であるとは，以下の条件をすべて満たすことをいう：
+	\begin{enumerate}
+		\item 任意の\(a, b, c \in G\)に対し\(\paren{a \cdot b} \cdot c = a \cdot \paren{b \cdot c}\)である． \label{item:group-assoc}
+		\item ある\(e \in G\)が存在し，任意の\(a \in G\)に対し\(a \cdot e = e \cdot a = a\)である．
+		\item 任意の\(a \in G\)に対し，ある\(b \in G\)が存在して\(a \cdot b = b \cdot a = e\)である．
+	\end{enumerate}
+\end{Def}
+
+\begin{Ex} \label[Ex]{Ex:integer-group}
+	\(\paren{\Z, +}\)は群である．
+\end{Ex}
+
+\begin{Thm} \label[Thm]{Thm:unit-unique}
+	群の単位元は一意に定まる．
+\end{Thm}
+
+\begin{proof}
+	\(e, e'\)がともに単位元であるとすると，\(e = e \cdot e' = e'\)である．
+\end{proof}
+
+\begin{Note}
+	\Cref{Def:group}の条件\cref{item:group-assoc}を結合法則という．
+	\Cref{Thm:unit-unique}の証明では，結合法則を使っていない．
+\end{Note}
+
+群論の標準的な教科書として\cite{sample2026}を挙げる．
+
+\begin{Que} \label[Que]{Que:inverse-unique}
+	群の各元の逆元は一意に定まることを示せ．
+\end{Que}

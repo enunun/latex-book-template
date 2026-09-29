@@ -1,0 +1,66 @@
+%%%%%%%%%%%%%%%%%%%%========== ハイパーリンク ==========%%%%%%%%%%%%%%%%%%%%
+% hyperrefはほかのパッケージより後に，cleverefはhyperrefより後に読み込む．
+\usepackage[unicode, hidelinks]{hyperref}
+\hypersetup{%
+	pdftitle = {\booktitle},
+	pdfauthor = {\bookauthor},
+	bookmarksnumbered = true,
+	bookmarksopen = true,
+	bookmarkstype = toc,
+	pdfborder = {0 0 0},
+	colorlinks = true,
+}
+\usepackage{footnotebackref}
+
+%%%%%%%%%%%%%%%%%%%%========== 相互参照 ==========%%%%%%%%%%%%%%%%%%%%
+\usepackage[nameinlink]{cleveref}
+
+% \crefと\Crefに同じ名前を設定する．単数形と複数形も区別しない．
+\NewDocumentCommand{\setcrefname}{mm}{%
+	\crefname{#1}{#2}{#2}%
+	\Crefname{#1}{#2}{#2}%
+}
+
+% 定理環境．theorems.texに環境を追加したら，ここにも追加する．
+\setcrefname{Def}{定義}
+\setcrefname{Thm}{定理}
+\setcrefname{Prop}{命題}
+\setcrefname{Lemma}{補題}
+\setcrefname{Corollary}{系}
+\setcrefname{Ex}{例}
+\setcrefname{Note}{注意}
+\setcrefname{Que}{演習}
+
+% 図表・数式・ページ・箇条書き
+\setcrefname{figure}{図}
+\setcrefname{table}{表}
+\setcrefname{equation}{式}
+\setcrefname{page}{p.}
+\setcrefname{enumi}{}
+
+% 章・節・小節
+\crefformat{chapter}{#2第#1章#3}
+\Crefformat{chapter}{#2第#1章#3}
+\crefrangeformat{chapter}{#3第#1#4章から#5第#2#6章}
+\Crefrangeformat{chapter}{#3第#1#4章から#5第#2#6章}
+\setcrefname{section}{\presectionname}
+\setcrefname{subsection}{\presubsectionname}
+\crefrangeformat{section}{#3\presectionname#1#4から#5\presectionname#2#6}
+\Crefrangeformat{section}{#3\presectionname#1#4から#5\presectionname#2#6}
+\crefrangeformat{subsection}{#3\presubsectionname#1#4から#5\presubsectionname#2#6}
+\Crefrangeformat{subsection}{#3\presubsectionname#1#4から#5\presubsectionname#2#6}
+
+%%%%%%%%%%%%%%%%%%%%========== 参考文献 ==========%%%%%%%%%%%%%%%%%%%%
+\usepackage[%
+	backend = biber,%
+	url = false,%
+	doi = false,%
+	eprint = false,%
+	isbn = false,%
+	sorting = none,%
+	style = numeric-comp%
+]{biblatex}
+\DeclareFieldFormat*{title}{\mkbibquote{#1}}
+\DeclareDelimFormat{labelnamepunct}{\addcomma\addspace}
+\DeclareFieldFormat{url}{\url{#1}}
+\addbibresource{reference/book.bib}

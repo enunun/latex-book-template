@@ -7,6 +7,15 @@ pre-commit:
     - rebase
 
   commands:
+    # TeXのソースは，latexindentで整形してからステージし直す．
+    latexindent:
+      glob: "*.tex"
+      run: >-
+        mkdir -p .cache/latexindent &&
+        latexindent --overwriteIfDifferent --silent --local=.latexindent.yaml
+        --cruft=.cache/latexindent/ --logfile=/dev/null {staged_files}
+      stage_fixed: true
+
     textlint:
       glob: "*.md"
       run: pnpm textlint {staged_files}

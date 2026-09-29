@@ -1,6 +1,8 @@
 # PROJECT_NAME
 
-TODO: Describe the project overview.
+A Japanese mathematics book written in LuaLaTeX (`ltjsbook`). Build with `mise run build` (llmk, see `src/llmk.toml`); the PDF is `src/main.pdf`.
+
+TODO: Describe the book (topic, audience, target event or release).
 
 # RTK (Rust Token Killer)
 
@@ -13,10 +15,20 @@ TODO: Describe the development conventions for this project (branching strategy,
 - `git commit` runs the lefthook hooks. If they fail, fix the reported issues. Do not use `--no-verify`.
 
 - Run `mise run check` after making changes.
+- Format TeX sources with `mise run fmt` (latexindent, settings in `.latexindent.yaml`). Indent with tabs.
+- Write inline math as `\(...\)`. Use `\cref`/`\Cref` for references, with labels of the form `Env:id` (e.g. `Def:group`, `Thm:lagrange`).
+- Mark new terms with `\term[reading]{term}` so they enter the word index; add symbols to the symbol index with `\index[sidx]{reading@symbol}`.
+- Japanese prose uses `，` and `．` as punctuation and the である style.
 
 ## Code map
 
-TODO: Describe the main directory structure and the purpose of each directory.
+- `src/main.tex`: entry point. Book metadata (`\booktitle`, `\bookauthor`, ...) and the `\include` order of chapters.
+- `src/preamble/`: content-independent preamble (packages, fonts, layout, theorem environments, generic math macros, indexes, hyperref/cleveref/biblatex). A new theorem environment goes in both `theorems.tex` and `references.tex`.
+- `src/contents/`: one file per chapter. `intro.tex` is front matter, `answer.tex` holds exercise solutions.
+- `src/colophon.tex`: colophon, built from the metadata in `main.tex`.
+- `src/reference/book.bib`: bibliography. `src/fig/`: figures.
+- `.devcontainer/`: dev container based on the official `texlive/texlive` image, with mise copied in from the official mise image.
+- `.github/workflows/build.yml`: CI build; tags attach the PDF to a GitHub Release.
 
 # Artifact Cleanup
 
