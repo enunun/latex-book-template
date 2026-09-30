@@ -47,6 +47,12 @@ run = "pnpm lint"
 description = "すべてのリントを実行する"
 depends = ["lint:tex", "lint:docs"]
 
+[tasks."lint:nag"]
+description = "時代遅れの命令や環境を使っていないかを，ビルドのログのnagの警告で検査する"
+depends = ["build"]
+dir = "src"
+run = "if grep -A2 'Package nag Warning' main.log; then echo '時代遅れの命令や環境がある．上のnagの警告に従って書き換えること．' >&2; exit 1; fi"
+
 [tasks.hooks]
 description = "Gitのフック(コミット時の検査)を設定する"
 run = "lefthook install"
@@ -56,5 +62,5 @@ description = "開発環境を整える(依存パッケージ，Gitのフック�
 depends = ["install", "hooks"]
 
 [tasks.check]
-description = "整形の検査，リント，ビルドをまとめて実行する(CIと同じ)"
-depends = ["lint", "build"]
+description = "整形の検査，リント，ビルド，nagの検査をまとめて実行する(CIと同じ)"
+depends = ["lint", "lint:nag"]

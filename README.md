@@ -70,7 +70,8 @@ CLAUDE.md                プロジェクト向けのClaude Code指示の雛形�
 | `mise run clean` | ビルドで生成したファイルを削除する． |
 | `mise run fmt` | TeXのソースをlatexindentで整形する． |
 | `mise run lint` | TeXのソースの整形と，Markdownの文書を検査する． |
-| `mise run check` | リントとビルドをまとめて実行する． |
+| `mise run lint:nag` | ビルドし，時代遅れの命令や環境があれば失敗する． |
+| `mise run check` | リント，ビルド，`lint:nag`の検査をまとめて実行する． |
 
 コミット時には，lefthookがステージしたTeXのソースをlatexindentで整形し，ステージし直す．
 VSCodeでは，TeXのソースを保存したときにtexlab経由でlatexindentが整形する．
@@ -88,7 +89,8 @@ VSCodeでは，TeXのソースを保存したときにtexlab経由でlatexindent
 - 演習の解答は`src/contents/answer.tex`に書く．
 - 定理環境を追加するときは，`src/preamble/theorems.tex`と`src/preamble/references.tex`の両方に書く．
 - 時代遅れの命令や環境(`\bf`，`eqnarray`，`$$...$$`など)は使わない．
-  使うと，nagパッケージがビルドのログ(`src/main.log`)に`Package nag Warning`として代わりの書き方を示す．
+  使うと，nagパッケージがビルドのログ(`src/main.log`)に`Package nag Warning`として代わりの書き方を示し，
+  `mise run lint:nag`と`mise run check`，GitHub Actionsのビルドが失敗する．
 
 ## TeX Liveのイメージについて
 

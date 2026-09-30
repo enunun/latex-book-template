@@ -33,10 +33,11 @@ jobs:
         run: docker compose -f .devcontainer/compose.yml build
 
       # Markdownのリント(lint:docs)は，pnpm-lock.yamlをコミットしてから加える．
-      - name: Check formatting and build PDF
+      # lint:nagはPDFをビルドしてから，ログのnagの警告を検査する．
+      - name: Check formatting, build PDF, and check for obsolete commands
         run: >-
           docker compose -f .devcontainer/compose.yml run --rm app
-          sh -c "mise run lint:tex && mise run build"
+          sh -c "mise run lint:tex && mise run lint:nag"
 
       - name: Upload PDF
         uses: actions/upload-artifact@v7
