@@ -87,6 +87,8 @@ VSCodeでは，TeXのソースを保存したときにtexlab経由でlatexindent
 - 数の集合は，numbersetsパッケージの`\NaturalNumbers`，`\Integers`，`\RationalNumbers`，`\RealNumbers`，`\ComplexNumbers`で書く．
 - 演習の解答は`src/contents/answer.tex`に書く．
 - 定理環境を追加するときは，`src/preamble/theorems.tex`と`src/preamble/references.tex`の両方に書く．
+- 時代遅れの命令や環境(`\bf`，`eqnarray`，`$$...$$`など)は使わない．
+  使うと，nagパッケージがビルドのログ(`src/main.log`)に`Package nag Warning`として代わりの書き方を示す．
 
 ## TeX Liveのイメージについて
 
