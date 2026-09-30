@@ -1,13 +1,23 @@
 # 開発用コンテナと同じイメージで，整形の検査とビルドを行う．
-# タグをpushしたときは，ビルドしたPDFをReleaseに添付する．
+# GitHubのActionsタブから手動で実行する．
+# タグを指定したときは，ビルドしたPDFをそのタグのReleaseに添付する(タグがなければ作る)．
 name: Build
 
 on:
-  push:
-    branches: [main]
-    tags: ["*"]
-  pull_request:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Releaseに使うタグ(空ならReleaseを作らない)"
+        required: false
+        default: ""
+      name:
+        description: "Releaseの名前(空ならタグと同じ)"
+        required: false
+        default: ""
+      body:
+        description: "Releaseの説明"
+        required: false
+        default: ""
 
 jobs:
   build:
@@ -35,7 +45,11 @@ jobs:
           path: src/main.pdf
 
       - name: Release PDF
-        if: startsWith(github.ref, 'refs/tags/')
+        if: inputs.tag != ''
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ inputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: ${{ inputs.name != '' && inputs.name || inputs.tag }}
+          body: ${{ inputs.body }}
           files: src/main.pdf

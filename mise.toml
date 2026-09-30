@@ -21,8 +21,8 @@ run = "llmk"
 
 [tasks.clean]
 description = "ビルドで生成したファイルを削除する(PDFも含む)"
-dir = "src"
-run = "llmk -C"
+# src/の下で.gitignoreが除外しているファイルは，すべてビルドの生成物である．
+run = "git clean -fX -- src"
 
 [tasks.fmt]
 description = "TeXのソースをlatexindentで整形する"

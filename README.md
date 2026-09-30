@@ -17,15 +17,15 @@ Claude Code for VSCode + Docker(mise) + rtkの開発環境に，TeX Liveの公�
   compose.yml         コンテナを起動したままにする(sleep infinity)だけの設定．
 .github/workflows/
   build.yml           開発用コンテナと同じイメージで整形の検査とビルドを行う．
-                      タグをpushすると，PDFをReleaseに添付する．
+                      Actionsタブから手動で実行し，タグを指定するとPDFをReleaseに添付する．
 src/
   main.tex            原稿の入口．書誌情報(書名，著者など)と，章の読み込み順を書く．
   preamble/           プリアンブル．本の中身によらない設定をまとめる．
     packages.tex      パッケージの読み込み．
     fonts.tex         欧文・数式・和文のフォント．
     layout.tex        見出し(§付き)，式番号，キャプションの体裁．
-    theorems.tex      定理環境(定義，定理，命題，補題，系，例，注意，演習)．
-    macros.tex        括弧類や数の集合など，汎用の数式マクロ．
+    theorems.tex      定理環境(定義，定理，補題，系，例，注意，演習)．
+    macros.tex        括弧類や冪集合など，汎用の数式マクロ．
     index.tex         記号索引と用語索引．
     references.tex    hyperref，cleveref(和文の参照名)，biblatex．
   contents/           本文．1章を1ファイルにする．
@@ -79,11 +79,12 @@ VSCodeでは，TeXのソースを保存したときにtexlab経由でlatexindent
 
 `src/contents/chapter01.tex`に見本がある．
 
-- 定理環境は`Def`，`Thm`，`Prop`，`Lemma`，`Corollary`，`Ex`，`Note`，`Que`(演習)を使う．
+- 定理環境は`Def`，`Thm`，`Lemma`，`Corollary`，`Ex`，`Note`，`Que`(演習)を使う．
   演習以外は節ごとに共通の番号になる．
 - 参照は`\cref`，`\Cref`を使う．ラベルは`環境名:識別子`の形にする(例：`Def:group`)．
 - 用語は`\term[読み]{用語}`で太字にし，用語索引に載せる．
   記号は`\index[sidx]{読み@記号}`で記号索引に載せる．
+- 数の集合は，numbersetsパッケージの`\NaturalNumbers`，`\Integers`，`\RationalNumbers`，`\RealNumbers`，`\ComplexNumbers`で書く．
 - 演習の解答は`src/contents/answer.tex`に書く．
 - 定理環境を追加するときは，`src/preamble/theorems.tex`と`src/preamble/references.tex`の両方に書く．
 

@@ -28,7 +28,7 @@ TODO: Describe the development conventions for this project (branching strategy,
 - `src/colophon.tex`: colophon, built from the metadata in `main.tex`.
 - `src/reference/book.bib`: bibliography. `src/fig/`: figures.
 - `.devcontainer/`: dev container based on the official `texlive/texlive` image, with mise copied in from the official mise image.
-- `.github/workflows/build.yml`: CI build; tags attach the PDF to a GitHub Release.
+- `.github/workflows/build.yml`: manually triggered build (workflow_dispatch); given a tag input, it attaches the PDF to a GitHub Release.
 
 # Artifact Cleanup
 
