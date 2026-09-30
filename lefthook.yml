@@ -16,8 +16,9 @@ pre-commit:
         --cruft=.cache/latexindent/ --logfile=/dev/null {staged_files}
       stage_fixed: true
 
+    # 原稿(.tex)の文章と，Markdownの文書を校正する．
     textlint:
-      glob: "*.md"
+      glob: "*.{md,tex}"
       run: pnpm textlint {staged_files}
 
     markdownlint:

@@ -1,0 +1,6 @@
+# GitHubから直接インストールするパッケージは，インストール時にビルド(prepare)を実行する．
+# pnpmは，取得元まで含めて許可したパッケージのビルドしか実行しないので，ここで許可する．
+# 依存の版(コミット)を変えたら，ここのコミットも変える．
+# npmに公開された版に切り替えたら，この許可は不要になる．
+allowBuilds:
+  "@enunun/textlint-plugin-latex@https://codeload.github.com/enunun/textlint-plugin-latex/tar.gz/820529e200979c1c8c6d246f4b9515721cc0a729": true

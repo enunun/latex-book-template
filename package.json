@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint:text": "git ls-files '*.md' -z | xargs -0 -r textlint",
+    "lint:text": "git ls-files '*.md' '*.tex' -z | xargs -0 -r textlint",
     "lint:markdown": "git ls-files '*.md' -z | xargs -0 -r markdownlint-cli2",
     "lint": "pnpm run lint:text && pnpm run lint:markdown"
   },
@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@enunun/textlint-plugin-latex": "github:enunun/textlint-plugin-latex#820529e200979c1c8c6d246f4b9515721cc0a729",
     "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
     "markdownlint-cli2": "^0.23.3",
     "textlint": "^15.8.0",

@@ -19,6 +19,7 @@ TODO: Describe the development conventions for this project (branching strategy,
 - Write inline math as `\(...\)`. Use `\cref`/`\Cref` for references, with labels of the form `Env:id` (e.g. `Def:group`, `Thm:lagrange`).
 - Mark new terms with `\term[reading]{term}` so they enter the word index; add symbols to the symbol index with `\index[sidx]{reading@symbol}`.
 - Japanese prose uses `，` and `．` as punctuation and the である style.
+- The prose of `.tex` files is checked by textlint (`pnpm lint`, via `@enunun/textlint-plugin-latex`). When you define a new command or environment whose argument or body is prose, register how to read it under `'@enunun/latex'` in `.textlintrc.yml` (for example `textCommands`). Silence a false positive with `% textlint-disable` / `% textlint-enable` around the smallest possible range.
 
 ## Code map
 
@@ -27,6 +28,8 @@ TODO: Describe the development conventions for this project (branching strategy,
 - `src/contents/`: one file per chapter. `intro.tex` is front matter, `answer.tex` holds exercise solutions.
 - `src/colophon.tex`: colophon, built from the metadata in `main.tex`.
 - `src/reference/book.bib`: bibliography. `src/fig/`: figures.
+- `.textlintrc.yml`, `.textlintignore`: textlint settings for `.tex` and `.md`. `src/preamble/` and `src/colophon.tex` are not checked.
+- `pnpm-workspace.yaml`: allows the build script of the textlint plugin installed from GitHub; remove it once the plugin is installed from npm.
 - `.devcontainer/`: dev container based on the official `texlive/texlive` image, with mise copied in from the official mise image.
 - `.github/workflows/build.yml`: manually triggered build (workflow_dispatch); given a tag input, it attaches the PDF to a GitHub Release.
 

@@ -2,7 +2,7 @@
 
 LuaLaTeXで日本語の数学書を書くためのテンプレート．
 Claude Code for VSCode + Docker(mise) + rtkの開発環境に，TeX Liveの公式イメージを組み合わせている．
-原稿の整形にはlatexindent，ビルドにはllmkを使う．
+原稿の整形にはlatexindent，文章の校正にはtextlint，ビルドにはllmkを使う．
 
 ## 構成
 
@@ -38,6 +38,9 @@ src/
   llmk.toml           ビルドの手順(lualatex → biber → upmendex → lualatex × 2)．
   index.ist           索引の体裁(upmendexのスタイル)．
 .latexindent.yaml     latexindentの設定．
+.textlintrc.yml       textlintの設定．原稿(.tex)は@enunun/textlint-plugin-latexで読む．
+.textlintignore       textlintで検査しないファイル(プリアンブル，奥付)．
+pnpm-workspace.yaml   GitHubから入れるtextlintのプラグインに，インストール時のビルドを許可する．
 .claude/
   settings.json        Bashツール呼び出しをrtk経由に書き換えるフック．
                         enunun/system-development-skillsを参照するプラグイン設定も含む．
@@ -69,11 +72,12 @@ CLAUDE.md                プロジェクト向けのClaude Code指示の雛形�
 | `mise run build` | 原稿をビルドし，`src/main.pdf`を作る． |
 | `mise run clean` | ビルドで生成したファイルを削除する． |
 | `mise run fmt` | TeXのソースをlatexindentで整形する． |
-| `mise run lint` | TeXのソースの整形と，Markdownの文書を検査する． |
+| `mise run lint` | TeXのソースの整形，原稿の文章，Markdownの文書を検査する． |
 | `mise run lint:nag` | ビルドし，時代遅れの命令や環境があれば失敗する． |
 | `mise run check` | リント，ビルド，`lint:nag`の検査をまとめて実行する． |
 
 コミット時には，lefthookがステージしたTeXのソースをlatexindentで整形し，ステージし直す．
+あわせて，ステージした原稿とMarkdownの文書をtextlintで校正する．
 VSCodeでは，TeXのソースを保存したときにtexlab経由でlatexindentが整形する．
 
 ## 原稿の書き方
@@ -91,6 +95,22 @@ VSCodeでは，TeXのソースを保存したときにtexlab経由でlatexindent
 - 時代遅れの命令や環境(`\bf`，`eqnarray`，`$$...$$`など)は使わない．
   使うと，nagパッケージがビルドのログ(`src/main.log`)に`Package nag Warning`として代わりの書き方を示し，
   `mise run lint:nag`と`mise run check`，GitHub Actionsのビルドが失敗する．
+
+## 文章の校正
+
+原稿(`src/`の下の`.tex`)の文章は，Markdownの文書と同じtextlintの規則で校正する．
+LaTeXの原稿は[@enunun/textlint-plugin-latex](https://github.com/enunun/textlint-plugin-latex)で読む．
+プリアンブル(`src/preamble/`)と奥付(`src/colophon.tex`)は検査しない．
+
+- 別行立ての数式は，前後の地の文と同じ文の一部として扱う．「〜とすると，［数式］である．」は1つの文である．
+- 箇条書きの各項目は別の段落として扱う．箇条書きの前の段落は「：」で終わってよい．
+- 自作の命令や環境は，`.textlintrc.yml`の`'@enunun/latex'`に扱いを登録する．
+  たとえば，引数を文の一部として検査する命令は`textCommands`に加える(`\term`は登録済み)．
+  登録できる項目はプラグインのREADMEを参照．
+- 範囲を指定して検査を止めるには，`% textlint-disable`と`% textlint-enable`のコメントで囲む．
+
+プラグインは，npmに公開されるまでGitHubのコミットを指定して入れている．
+公開後は，`package.json`の依存を`@enunun/textlint-plugin-latex`の版に替え，`pnpm-workspace.yaml`を削除する．
 
 ## TeX Liveのイメージについて
 

@@ -39,7 +39,7 @@ run = [
 ]
 
 [tasks."lint:docs"]
-description = "Markdownの文書をtextlintとmarkdownlintで検査する"
+description = "原稿(.tex)の文章とMarkdownの文書をtextlintで，Markdownの書式をmarkdownlintで検査する"
 depends = ["install"]
 run = "pnpm lint"
 

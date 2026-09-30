@@ -1,6 +1,12 @@
 plugins:
   '@textlint/markdown': true
 
+  # LaTeXの原稿(.tex)を検査する．自作の命令や環境は，内容に合わせてここに追加する．
+  '@enunun/latex':
+    # 引数を文の一部として検査する命令．\term[よみ]{用語}は用語を太字にして索引に載せる．
+    textCommands:
+      - term
+
 rules:
   # 技術文書の文体(文の長さ，読点の数，常体の統一，弱い表現など)．
   preset-ja-technical-writing:
@@ -20,8 +26,11 @@ rules:
       touten: '，'
       kuten: '．'
 
+    # 箇条書きの前の段落は「以下の条件を満たす：」のように「：」で終わってよい．
     ja-no-mixed-period:
       periodMark: '．'
+      allowPeriodMarks:
+        - '：'
 
   # 和文の中のコロンを全角にし，読点と句点を「，」と「．」にする．辞書は.textlint-prh.ymlに書く．
   prh:
@@ -38,4 +47,6 @@ rules:
       after: false
 
   # AIが書いたように見える表現(機械的な箇条書き，誇張，強調の乱用など)．
-  '@textlint-ja/preset-ai-writing': true
+  '@textlint-ja/preset-ai-writing':
+    # 数学の文書では「以下の条件を満たす：」の後に箇条書きを続ける書き方が標準なので，許す．
+    no-ai-colon-continuation: false

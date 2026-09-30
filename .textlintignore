@@ -1,2 +1,5 @@
 CLAUDE.md
 .claude/
+# プリアンブルは文章を含まない．奥付は句点を付けない書式である．
+src/preamble/
+src/colophon.tex
