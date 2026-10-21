@@ -1,0 +1,14 @@
+%%%%%%%%%%%%%%%%%%%%========== フォント ==========%%%%%%%%%%%%%%%%%%%%
+% 欧文と数式はunicode-math，和文はluatexja-presetで原ノ味フォントを使う．
+\usepackage[no-math]{luatexja-fontspec}
+\usepackage{unicode-math}
+\setmainfont[Ligatures=TeX]{XITS}
+\setsansfont[Ligatures=TeX]{Fira Sans}
+\setmonofont[Ligatures=TeX]{Fira Mono}
+\setmathfont{XITS Math}[math-style=ISO, bold-style=ISO]
+\setmathfont{XITS Math}[range=cal, StylisticSet=1]
+\setmathfont{TeX Gyre Pagella Math}[range=bb]
+\usepackage[HaranoAji]{luatexja-preset}
+
+% ギリシャ文字やキリル文字などを欧文として組む．
+\ltjsetparameter{jacharrange={-2, -3}}

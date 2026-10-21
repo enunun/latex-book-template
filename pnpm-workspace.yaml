@@ -1,0 +1,5 @@
+# pnpmは，公開されて間もない版のインストールを既定で止める(サプライチェーン攻撃への備え)．
+# 自分で公開したtextlintのプラグインの版は，公開直後から使えるように除外する．
+# `pnpm add`で公開直後の版を入れると，pnpmがこの一覧に自動で追加する．
+minimumReleaseAgeExclude:
+  - '@enunun/textlint-plugin-latex@0.1.1'

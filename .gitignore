@@ -40,6 +40,37 @@ mise.local.toml
 lefthook-local.yml
 
 # ---------------------------------------------------------------
+# LaTeX build output (mise run build → llmk in src/)
+# Figures under src/fig/ may be PDFs, so only the built book is ignored.
+# ---------------------------------------------------------------
+src/main.pdf
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.fls
+*.fdb_latexmk
+*.out
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.synctex(busy)
+*.ltjruby
+# index package (symbol / word indexes) and upmendex
+*.idx
+*.ind
+*.ilg
+*.sidx
+*.sind
+*.widx
+*.wind
+
+# latexindent backups (--cruft=.cache/latexindent/)
+.cache/
+
+# ---------------------------------------------------------------
 # Secrets / environment
 # ---------------------------------------------------------------
 .env

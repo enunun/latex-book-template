@@ -1,0 +1,56 @@
+# 開発用コンテナと同じイメージで，整形の検査とビルドを行う．
+# GitHubのActionsタブから手動で実行する．
+# タグを指定したときは，ビルドしたPDFをそのタグのReleaseに添付する(タグがなければ作る)．
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Releaseに使うタグ(空ならReleaseを作らない)"
+        required: false
+        default: ""
+      name:
+        description: "Releaseの名前(空ならタグと同じ)"
+        required: false
+        default: ""
+      body:
+        description: "Releaseの説明"
+        required: false
+        default: ""
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Build dev container image
+        run: docker compose -f .devcontainer/compose.yml build
+
+      # Markdownのリント(lint:docs)は，pnpm-lock.yamlをコミットしてから加える．
+      # lint:nagはPDFをビルドしてから，ログのnagの警告を検査する．
+      - name: Check formatting, build PDF, and check for obsolete commands
+        run: >-
+          docker compose -f .devcontainer/compose.yml run --rm app
+          sh -c "mise run lint:tex && mise run lint:nag"
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v7
+        with:
+          name: book
+          path: src/main.pdf
+
+      - name: Release PDF
+        if: inputs.tag != ''
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ inputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: ${{ inputs.name != '' && inputs.name || inputs.tag }}
+          body: ${{ inputs.body }}
+          files: src/main.pdf

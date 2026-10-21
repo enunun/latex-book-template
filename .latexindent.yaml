@@ -1,0 +1,5 @@
+# latexindentの設定．mise run fmt，lefthook，VSCodeの整形(texlab)が読み込む．
+# 設定項目は`texdoc latexindent`を参照する．ここに書かない項目は，latexindentの既定値になる．
+
+# 字下げにはタブを使う．
+defaultIndent: "\t"

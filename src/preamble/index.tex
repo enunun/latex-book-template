@@ -1,0 +1,19 @@
+%%%%%%%%%%%%%%%%%%%%========== 索引 ==========%%%%%%%%%%%%%%%%%%%%
+% 記号索引(sidx)と用語索引(widx)を作る．
+% llmk.tomlのsymbolindexとwordindexが，それぞれをupmendexで処理する．
+% 記号は\index[sidx]{読み@記号}，用語は\term[読み]{用語}か\index[widx]{読み@用語}で登録する．
+\newindex{sidx}{sidx}{sind}{記号索引}
+\newindex{widx}{widx}{wind}{用語索引}
+
+% 索引の見出し文字．index.istのheading_prefixから呼ぶ．
+\makeatletter
+\NewDocumentCommand{\idxhead}{m}{%
+	\needspace{2\baselineskip}%
+	\vspace{\baselineskip}%
+	\DeclareDocumentCommand{\hrulefill}{}{\leavevmode\leaders\hrule height 0.8pt\hfill\kern\z@}%
+	\hbox to \columnwidth{\hfil%
+		\normalsize%
+		\textcolor{gray}{\raisebox{.15ex}{■}}\hspace{.5\zw}\textsf{#1}\hspace{.5\zw}\textcolor{gray}{\raisebox{.15ex}{■}}\hfil}\vspace{-4.5mm}\hrulefill\par%
+	\nopagebreak%
+}
+\makeatother

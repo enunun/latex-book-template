@@ -1,0 +1,45 @@
+%%%%%%%%%%%%%%%%%%%%========== 見出しと番号 ==========%%%%%%%%%%%%%%%%%%%%
+
+% 節の見出しに「§」，小節の見出しに「§§」を付ける．
+% 後付け(\backmatter)では，main.texで空に再定義する．
+\makeatletter
+\renewcommand{\section}{%
+	\if@slide\clearpage\fi
+	\@startsection{section}{1}{\z@}%
+	{\Cvs \@plus.5\Cdp \@minus.2\Cdp}% 前アキ
+	{.5\Cvs \@plus.3\Cdp}% 後アキ
+	{\normalfont\Large\headfont\presectionname\raggedright}%
+}
+\renewcommand{\subsection}{%
+	\@startsection{subsection}{2}{\z@}%
+	{\Cvs \@plus.5\Cdp \@minus.2\Cdp}% 前アキ
+	{.5\Cvs \@plus.3\Cdp}% 後アキ
+	{\normalfont\large\headfont\presubsectionname}%
+}
+\makeatother
+\renewcommand{\presectionname}{\S}
+\NewDocumentCommand{\presubsectionname}{}{\S\S}
+\setcounter{tocdepth}{2}
+
+% 式番号と脚注番号を，節ごとに振り直す．
+\numberwithin{equation}{section}
+\counterwithin*{footnote}{section}
+
+%%%%%%%%%%%%%%%%%%%%========== キャプション ==========%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thesubfigure}{\alph{subfigure}}
+
+\makeatletter
+\captionsetup{compatibility=false}
+\captionsetup{%
+	format = plain,
+	labelsep = quad,
+	font = small,
+	width = .85\linewidth,
+	subrefformat = parens,
+	skip = 5\jsc@mpt
+}
+\captionsetup[subfigure]{%
+	labelformat = parens,
+	labelsep = space
+}
+\makeatother
