@@ -40,7 +40,7 @@ src/
 .latexindent.yaml     latexindentの設定．
 .textlintrc.yml       textlintの設定．原稿(.tex)は@enunun/textlint-plugin-latexで読む．
 .textlintignore       textlintで検査しないファイル(プリアンブル，奥付)．
-pnpm-workspace.yaml   GitHubから入れるtextlintのプラグインに，インストール時のビルドを許可する．
+pnpm-workspace.yaml   pnpmの設定．公開直後のtextlintのプラグインの版をインストールできるようにする．
 .claude/
   settings.json        Bashツール呼び出しをrtk経由に書き換えるフック．
                         enunun/system-development-skillsを参照するプラグイン設定も含む．
@@ -108,9 +108,6 @@ LaTeXの原稿は[@enunun/textlint-plugin-latex](https://github.com/enunun/textl
   たとえば，引数を文の一部として検査する命令は`textCommands`に加える(`\term`は登録済み)．
   登録できる項目はプラグインのREADMEを参照．
 - 範囲を指定して検査を止めるには，`% textlint-disable`と`% textlint-enable`のコメントで囲む．
-
-プラグインは，npmに公開されるまでGitHubのコミットを指定して入れている．
-公開後は，`package.json`の依存を`@enunun/textlint-plugin-latex`の版に替え，`pnpm-workspace.yaml`を削除する．
 
 ## TeX Liveのイメージについて
 

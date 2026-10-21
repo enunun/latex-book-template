@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@enunun/textlint-plugin-latex": "github:enunun/textlint-plugin-latex#820529e200979c1c8c6d246f4b9515721cc0a729",
+    "@enunun/textlint-plugin-latex": "^0.1.1",
     "@textlint-ja/textlint-rule-preset-ai-writing": "^1.7.0",
     "markdownlint-cli2": "^0.23.3",
     "textlint": "^15.8.0",
